@@ -39,6 +39,9 @@ namespace w10d4
             services.AddTransient<IngredientsRepository>();
             services.AddTransient<IngredientsService>();
 
+            services.AddTransient<StepsRepository>();
+            services.AddTransient<StepsService>();
+
             services.AddTransient<RecipesRepository>();
             services.AddTransient<RecipesService>();
         }

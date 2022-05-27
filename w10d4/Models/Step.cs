@@ -9,8 +9,13 @@ namespace w10d4.Models
         public System.DateTime UpdatedAt { get; set; }
         
         [Required]
+        public int Position { get; set; }
+
+        [Required]
         public string Body { get; set; } 
 
         public int RecipeId { get; set; }
+
+        public string CreatorId { get; set; }
     }
 }

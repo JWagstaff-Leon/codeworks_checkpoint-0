@@ -6,49 +6,49 @@ using w10d4.Models;
 
 namespace w10d4.Repositories
 {
-    public class IngredientsRepository
+    public class StepsRepository
     {
         private readonly IDbConnection _db;
 
-        public IngredientsRepository(IDbConnection db)
+        public StepsRepository(IDbConnection db)
         {
             _db = db;
         }
 
-        internal Ingredient GetById(int id)
+        internal Step GetById(int id)
         {
             string sql = @"
             SELECT
-            ing.*,
+            ste.*,
             rec.creatorId AS CreatorId
-            FROM ingredients ing
-            JOIN recipes rec ON ing.recipeId = rec.Id
-            WHERE ing.id = @id;
+            FROM steps ste
+            JOIN recipes rec ON ste.recipeId = rec.Id
+            WHERE ste.id = @id;
             ";
-            return _db.Query<Ingredient>(sql, new { id }).FirstOrDefault();
+            return _db.Query<Step>(sql, new { id }).FirstOrDefault();
         }
 
-        internal List<Ingredient> GetByRecipeId(int id)
+        internal List<Step> GetByRecipeId(int id)
         {
             string sql = @"
             SELECT
-            ing.*,
+            ste.*,
             rec.creatorId AS CreatorId
-            FROM ingredients ing
-            JOIN recipes rec ON ing.recipeId = rec.Id
-            WHERE ing.recipeId = @id;
+            FROM steps ste
+            JOIN recipes rec ON ste.recipeId = rec.id
+            WHERE ste.recipeId = @id;
             ";
-            return _db.Query<Ingredient>(sql, new { id }).ToList();
+            return _db.Query<Step>(sql, new { id }).ToList();
         }
 
-        internal Ingredient Create(Ingredient data)
+        internal Step Create(Step data)
         {
             string sql = @"
             INSERT
-            INTO ingredients
-            (quantity, name, recipeId)
+            INTO steps
+            (position, body, recipeId)
             VALUES
-            (@Quantity, @Name, @RecipeId);
+            (@Position, @Body, @recipeId);
             SELECT LAST_INSERT_ID();
             ";
             data.Id = _db.ExecuteScalar<int>(sql, data);
@@ -57,13 +57,13 @@ namespace w10d4.Repositories
             return data;
         }
 
-        internal Ingredient Edit(Ingredient update)
+        internal Step Edit(Step update)
         {
             string sql = @"
-            UPDATE ingredients
+            UPDATE steps
             SET
-                quantity = @Quantity,
-                name = @Name
+                position = @Position,
+                body = @Body
             WHERE id = @Id;
             ";
             _db.Execute(sql, update);
@@ -75,7 +75,7 @@ namespace w10d4.Repositories
         {
             string sql = @"
             DELETE
-            FROM ingredients
+            FROM steps
             WHERE id = @id
             LIMIT 1;
             ";
