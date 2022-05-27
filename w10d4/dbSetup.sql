@@ -63,3 +63,17 @@ CREATE TABLE IF NOT EXISTS favorites(
     REFERENCES recipes(id)
     ON DELETE CASCADE
 ) DEFAULT CHARSET UTF8;
+
+
+INSERT
+INTO favorites
+(accountId, recipeId)
+VALUES
+("628ea50ee46b97dfc342d1f1", 2);
+
+SELECT
+rec.*,
+fav.id AS FavoriteId
+FROM favorites fav
+JOIN recipes rec ON fav.recipeId = rec.id
+WHERE fav.accountId = "628ea50ee46b97dfc342d1f1";

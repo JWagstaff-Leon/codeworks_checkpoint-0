@@ -16,12 +16,14 @@ namespace w10d4.Controllers
         private readonly RecipesService _serv;
         private readonly IngredientsService _ingredientsServ;
         private readonly StepsService _stepsServ;
+        private readonly FavoritesService _favoritesServ;
 
-        public RecipesController(RecipesService serv, IngredientsService ingredientsServ, StepsService stepsServ)
+        public RecipesController(RecipesService serv, IngredientsService ingredientsServ, StepsService stepsServ, FavoritesService favoritesServ)
         {
             _serv = serv;
             _ingredientsServ = ingredientsServ;
             _stepsServ = stepsServ;
+            _favoritesServ = favoritesServ;
         }
 
         [HttpGet]
@@ -72,6 +74,20 @@ namespace w10d4.Controllers
             try
             {
                 List<Step> found = _stepsServ.GetByRecipeId(id);
+                return Ok(found);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet("{id}/favorites")]
+        public ActionResult<List<RecipeFavoriteVM>> GetFavoriteRecipes(int id)
+        {
+            try
+            {
+                List<AccountFavoriteVM> found = _favoritesServ.GetByRecipeId(id);
                 return Ok(found);
             }
             catch(Exception e)

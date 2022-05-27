@@ -12,8 +12,8 @@ namespace w10d4.Models
         public string Email { get; set; }
     }
 
-    public class AccountFavoriteVM : Account
+    public class AccountFavoriteVM : Profile
     {
-        
+        public int FavoriteId { get; set; }
     }
 }

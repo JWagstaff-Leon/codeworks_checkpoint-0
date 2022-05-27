@@ -29,6 +29,6 @@ namespace w10d4.Models
 
     public class RecipeFavoriteVM : Recipe
     {
-
+        public int FavoriteId { get; set; }
     }
 }
