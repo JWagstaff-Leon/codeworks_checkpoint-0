@@ -45,5 +45,42 @@ namespace w10d4.Repositories
             ";
             return _db.Query<AccountFavoriteVM>(sql, new { id }).ToList();
         }
+
+        internal Favorite GetById(int id)
+        {
+            string sql = @"
+            SELECT *
+            FROM favorites
+            WHERE id = @id;
+            ";
+            return _db.Query<Favorite>(sql, new { id }).FirstOrDefault();
+        }
+
+        internal Favorite Create(Favorite data)
+        {
+            string sql = @"
+            INSERT
+            INTO favorites
+            (accountId, recipeId)
+            VALUES
+            (@AccountId, @RecipeId);
+            SELECT LAST_INSERT_ID();
+            ";
+            data.Id = _db.ExecuteScalar<int>(sql, data);
+            data.CreatedAt = System.DateTime.Now;
+            data.UpdatedAt = System.DateTime.Now;
+            return data;
+        }
+
+        internal void Remove(int id)
+        {
+            string sql = @"
+            DELETE
+            FROM favorites
+            WHERE id = @id
+            LIMIT 1;
+            ";
+            _db.Execute(sql, new { id });
+        }
     }
 }

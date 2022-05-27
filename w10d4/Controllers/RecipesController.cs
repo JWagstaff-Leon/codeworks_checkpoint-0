@@ -114,6 +114,25 @@ namespace w10d4.Controllers
             }
         }
 
+        [HttpPost("{id}/favorites")]
+        [Authorize]
+        public async Task<ActionResult<Favorite>> Create(int id)
+        {
+            try
+            {
+                Favorite data = new Favorite();
+                Account userInfo = await HttpContext.GetUserInfoAsync<Account>();
+                data.AccountId = userInfo.Id;
+                data.RecipeId = id;
+                Favorite created = _favoritesServ.Create(data);
+                return Ok(created);
+            }
+            catch(Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
         [HttpPut("{id}")]
         [Authorize]
         public async Task<ActionResult<Recipe>> Edit([FromBody] Recipe update, int id)

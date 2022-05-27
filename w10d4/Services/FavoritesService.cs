@@ -22,5 +22,32 @@ namespace w10d4.Services
         {
             return _repo.GetByRecipeId(id);
         }
+
+        internal Favorite GetById(int id)
+        {
+            Favorite found = _repo.GetById(id);
+            if(found == null)
+            {
+                throw new System.Exception("Could not find favorite with that id.");
+            }
+            return found;
+        }
+
+        internal Favorite Create(Favorite data)
+        {
+            Favorite created = _repo.Create(data);
+            return created;
+        }
+
+        internal Favorite Remove(int id, string userId)
+        {
+            Favorite removed = GetById(id);
+            if(removed.AccountId != userId)
+            {
+                throw new System.Exception("You do not have permission to delete this favorite.");
+            }
+            _repo.Remove(id);
+            return removed;
+        }
     }
 }
