@@ -15,11 +15,27 @@ namespace w10d4.Repositories
             _db = db;
         }
 
+        internal Ingredient GetById(int id)
+        {
+            string sql = @"
+            SELECT
+            ing.*,
+            rec.creatorId AS CreatorId
+            FROM ingredients ing
+            JOIN recipes rec ON ing.recipeId = rec.Id
+            WHERE ing.id = @id;
+            ";
+            return _db.Query<Ingredient>(sql, new { id }).FirstOrDefault();
+        }
+
         internal List<Ingredient> GetByRecipeId(int id)
         {
             string sql = @"
-            SELECT *
-            FROM ingredients
+            SELECT
+            ing.*,
+            rec.creatorId AS CreatorId
+            FROM ingredients ing
+            JOIN recipes rec ON ing.recipeId = rec.Id
             WHERE recipeId = @id;
             ";
             return _db.Query<Ingredient>(sql, new { id }).ToList();

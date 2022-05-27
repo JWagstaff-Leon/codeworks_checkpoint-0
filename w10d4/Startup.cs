@@ -36,6 +36,9 @@ namespace w10d4
             services.AddScoped<AccountsRepository>();
             services.AddScoped<AccountService>();
 
+            services.AddTransient<IngredientsRepository>();
+            services.AddTransient<IngredientsService>();
+
             services.AddTransient<RecipesRepository>();
             services.AddTransient<RecipesService>();
         }

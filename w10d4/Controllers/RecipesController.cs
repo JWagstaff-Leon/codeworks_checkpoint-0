@@ -14,10 +14,12 @@ namespace w10d4.Controllers
     public class RecipesController : ControllerBase
     {
         private readonly RecipesService _serv;
+        private readonly IngredientsService _IngredientsServ;
 
-        public RecipesController(RecipesService serv)
+        public RecipesController(RecipesService serv, IngredientsService ingredientsServ)
         {
             _serv = serv;
+            _IngredientsServ = ingredientsServ;
         }
 
         [HttpGet]
@@ -46,6 +48,20 @@ namespace w10d4.Controllers
             {
                 return BadRequest(e.Message);
             }
+        }
+
+        [HttpGet("{id}/ingredients/")]
+        public ActionResult<List<Ingredient>> GetIngredients(int id)
+        {
+           try
+           {
+               List<Ingredient> found = _IngredientsServ.GetByRecipeId(id);
+               return Ok(found);
+           }
+           catch(Exception e)
+           {
+               return BadRequest(e.Message);
+           }
         }
 
         [HttpPost]

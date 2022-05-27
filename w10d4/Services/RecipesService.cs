@@ -50,13 +50,17 @@ namespace w10d4.Services
             {
                 throw new System.Exception("You do not have permission to edit this recipe.");
             }
-            return _repo.Edit(update);
+            edited.Picture = update.Picture ?? edited.Picture;
+            edited.Title = update.Title ?? edited.Title;
+            edited.Subtitle = update.Subtitle ?? edited.Subtitle;
+            edited.Category = update.Category ?? edited.Category;
+            return _repo.Edit(edited);
         }
 
-        internal Recipe Remove(int id, string userId)
+        internal Recipe Remove(int id, string creatorId)
         {
             Recipe removed = GetById(id);
-            if(removed.CreatorId != userId)
+            if(removed.CreatorId != creatorId)
             {
                 throw new System.Exception("You do not have permission to delete this recipe.");
             }
